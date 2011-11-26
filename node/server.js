@@ -368,6 +368,13 @@ async.waterfall([
       });
     });
     
+    // Backup Database
+    app.get('/backup', function(req, res) {
+      res.header("Server", serverName);
+      var filePath = path.normalize(__dirname + "/../var/dirty.db");
+      res.sendfile(filePath, { maxAge: exports.maxAge }, function() {});
+    });
+    
     //let the server listen
     app.listen(settings.port, settings.ip);
     console.log("Server is listening at " + settings.ip + ":" + settings.port);
