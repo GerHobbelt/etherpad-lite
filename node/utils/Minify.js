@@ -69,7 +69,7 @@ exports.minifyJS = function(req, res, jsFilename)
       //find out the highest modification date
       function(callback)
       {        
-        var folders2check = ["../static/css","../static/js"];
+        var folders2check = ["static/css","static/js"];
         
         //go trough this two folders
         async.forEach(folders2check, function(path, callback)
@@ -129,7 +129,7 @@ exports.minifyJS = function(req, res, jsFilename)
       {
         async.forEach(jsFiles, function (item, callback)
         {
-          fs.readFile("../static/js/" + item, "utf-8", function(err, data)
+          fs.readFile("static/js/" + item, "utf-8", function(err, data)
           {            
             fileValues[item] = data;
             callback(err);
@@ -218,7 +218,7 @@ exports.minifyJS = function(req, res, jsFilename)
           //write the results plain in a file
           function(callback)
           {
-            fs.writeFile("../var/minified_" + jsFilename, result, "utf8", callback);  
+            fs.writeFile("var/minified_" + jsFilename, result, "utf8", callback);  
           },
           //write the results compressed in a file
           function(callback)
@@ -229,7 +229,7 @@ exports.minifyJS = function(req, res, jsFilename)
               gzip(result, 9, function(err, compressedResult){
                 if(err) {callback(err); return}
                 
-                fs.writeFile("../var/minified_" + jsFilename + ".gz", compressedResult, callback);  
+                fs.writeFile("var/minified_" + jsFilename + ".gz", compressedResult, callback);  
               });
             }
             //skip this step on windows

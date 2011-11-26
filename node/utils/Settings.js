@@ -58,7 +58,7 @@ exports.abiword = null;
 exports.loglevel = "INFO";
 
 //read the settings sync
-var settingsStr = fs.readFileSync("../settings.json").toString();
+var settingsStr = fs.readFileSync("settings.json").toString();
 
 //remove all comments
 settingsStr = settingsStr.replace(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/gm,"").replace(/#.*/g,"").replace(/\/\/.*/g,"");

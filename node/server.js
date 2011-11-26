@@ -40,24 +40,9 @@ var padManager;
 var securityManager;
 var socketIORouter;
 
-//try to get the git version
-var version = "";
-try
-{
-  var ref = fs.readFileSync("../.git/HEAD", "utf-8");
-  var refPath = "../.git/" + ref.substring(5, ref.indexOf("\n"));
-  version = fs.readFileSync(refPath, "utf-8");
-  version = version.substring(0, 7);
-  console.log("Your Etherpad Lite git version is " + version);
-}
-catch(e) 
-{
-  console.warn("Can't get git version for server header\n" + e.message)
-}
-
 console.log("Report bugs at https://github.com/Pita/etherpad-lite/issues")
 
-var serverName = "Etherpad-Lite " + version + " (http://j.mp/ep-lite)";
+var serverName = "Etherpad-Lite (http://j.mp/ep-lite)";
 
 //cache 6 hours
 exports.maxAge = 1000*60*60*6;
