@@ -26,7 +26,7 @@
     "formidable": "1.0.7",
     "log4js": "0.3.9"
   },
-  "version": "1.0.0-3",
+  "version": "1.0.0-4",
   "repository": {
     "type": "git",
     "url": "git://github.com/fcbosque/etherpad-lite"
@@ -36,7 +36,9 @@
     "npm": "1.0.106"
   },
   "subdomain": "padfcbosque",
-  "domains": [ "pad.bogotic.com" ],
+  "domains": [
+    "pad.bogotic.com"
+  ],
   "scripts": {
     "start": "node node/server.js"
   }

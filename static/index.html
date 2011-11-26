@@ -1,6 +1,6 @@
 <!doctype html>
 <html>   
-        <title>Etherpad Lite</title> 
+        <title>BogoTIC</title> 
         <style> 
             *{ margin:0;padding:0; }
             body {
@@ -18,7 +18,7 @@
             #container {
               text-shadow: 0 1px 1px #fff;
               border-top: 1px solid #999;
-              margin-top: 160px;
+              margin-top: 100px;
               width: 100%;
               text-align: center;
               padding: 15px;
@@ -28,7 +28,8 @@
               background: -ms-linear-gradient(#fff,#ccc);
               background: -o-linear-gradient(#fff,#ccc);
               opacity: .9;
-              box-shadow: 0px 1px 8px rgba(0,0,0,0.3)
+              box-shadow: 0px 1px 8px rgba(0,0,0,0.3);
+              display: table;
             }
             #button {
               margin: 0 auto;
@@ -89,13 +90,47 @@
         <body onload="document.mainform.padname.focus();">
         <link href="static/custom/index.css" rel="stylesheet"> 
         <script src="static/custom/index.js"></script>
-        <div id="container"> 
-            <div id="button" onclick="go2Random()">Nuevo Documento</div><br><div id="label">inicia/continua un documento llamado:</div> 
-            <form action="#" name="mainform" onsubmit="go2Name();return false;"> 
+        <a href="http://github.com/fcbosque/etherpad-lite" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0; z-index:99999" src="https://a248.e.akamai.net/assets.github.com/img/71eeaab9d563c2b3c590319b398dd35683265e85/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub"></a>
+        <div id="container" style="margin-top: 20px;">
+          <div id="container-fila">
+              <div id="container-centro">
+                <span style="font-size: 30px;">Documentos Principales: <strong>HOY</strong> Mesa Amplia de Software Libre</span>
+                <ul>
+                  <li id="button"><a href="http://pad.bogotic.com/p/CDS" target="_blank">CDS</a></li>
+                  <li id="button"><a href="http://pad.bogotic.com/p/Politica" target="_blank">Política</a></li>
+                  <li id="button"><a href="http://pad.bogotic.com/p/Proyectos" target="_blank">Proyectos</a></li>
+                </ul>
+              </div>
+          </div>
+        </div>
+        <div id="container">
+          <div id="container-fila">
+            <div id="container-izquierdo">
+              <ul>
+                <li id="button"><a href="http://pad.bogotic.com/p/Ayuda">Ayuda</a></li>
+                <li id="button"><a href="http://pad.bogotic.com/p/FAQ">FAQ</a></li>
+              </ul>
+            </div>
+            <div id="container-centro">
+              <div id="button" onclick="go2Random()">Nuevo Documento</div><br><div id="label">inicia/continua un documento llamado:</div> 
+              <form action="#" name="mainform" onsubmit="go2Name();return false;"> 
                     <input type="text" name="padname" id="padname" autofocus> 
                     <input type="submit" value="Abrir"> 
-            </form> 
-        </div> 
+              </form>
+            </div>
+            <div id="container-derecho"></div> 
+          </div>
+        </div>
+        <div id="footer">
+          <div id="container-fila">
+            <div id="container-izquierdo">
+              <a href="http://www.fcbosque.org/" target="_blank"><img src="/static/img/fcb.png" /></a>
+            </div>
+            <div id="container-centro">
+              <a href="http://www.bogotic.com/" target="_blank"><img src="/static/img/bogotic.png" /></a>
+            </div>
+          </div>
+        </div>
         <script> 
             function go2Name() 
             {
