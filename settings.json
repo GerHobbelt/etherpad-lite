@@ -1,0 +1,17 @@
+{
+  "ip": "0.0.0.0",
+  "port" : 80,
+  
+  "dbType" : "dirty",
+  "dbSettings" : {
+                   "filename" : "var/dirty.db"
+                 },
+  
+  "defaultPadText" : "Bienvenidos a la Fundación casa del Bosque.\n\n\nEl texto que escriba aqui se sincroniza con todas demas personas que este viendo el documento. Esto permite colaboracion en tiempor real sin problemas entre documentos.\n\nEste servicio funciona gracias a Etherpad Lite puedes revisar su codigo fuente en Github: http:\/\/j.mp/ep-lite\n",
+  
+  "minify" : true,
+  
+  "abiword" : null,
+  
+  "loglevel": "INFO"
+}
