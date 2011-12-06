@@ -3,5 +3,7 @@ APIKEY.txt
 bin/abiword.exe
 bin/node.exe
 etherpad-lite-win.zip
-bin/convertSettings.json
 .project
+bin/convertSettings.json
+*~
+*.patch

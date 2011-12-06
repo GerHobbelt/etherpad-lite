@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 
+var ERR = require("async-stacktrace");
 var fs = require("fs");
 var api = require("../db/API");
 
@@ -51,6 +52,7 @@ var functions = {
   "getText"                   : ["padID", "rev"],
   "setText"                   : ["padID", "text"],
   "getHTML"                   : ["padID", "rev"],
+  "setHTML"                   : ["padID", "html"],
   "getRevisionsCount"         : ["padID"], 
   "deletePad"                 : ["padID"], 
   "getReadOnlyID"             : ["padID"],
@@ -121,7 +123,7 @@ exports.handle = function(functionName, fields, req, res)
     else
     {
       res.send({code: 2, message: "internal error", data: null});
-      throw (err);
+      ERR(err);
     }
   });
   

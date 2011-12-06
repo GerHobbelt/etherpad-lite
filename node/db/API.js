@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 
+var ERR = require("async-stacktrace");
 var padManager = require("./PadManager");
 var padMessageHandler = require("../handler/PadMessageHandler");
 var readOnlyManager = require("./ReadOnlyManager");
@@ -26,6 +27,8 @@ var authorManager = require("./AuthorManager");
 var sessionManager = require("./SessionManager");
 var async = require("async");
 var exportHtml = require("../utils/ExportHtml");
+var importHtml = require("../utils/ImportHtml");
+var cleanText = require("./Pad").cleanText;
 
 /**********************/
 /**GROUP FUNCTIONS*****/
@@ -107,11 +110,7 @@ exports.getText = function(padID, rev, callback)
   //get the pad
   getPadSafe(padID, true, function(err, pad)
   {
-    if(err)
-    {
-      callback(err);
-      return;
-    }
+    if(ERR(err, callback)) return;
     
     //the client asked for a special revision
     if(rev !== undefined)
@@ -126,12 +125,11 @@ exports.getText = function(padID, rev, callback)
       //get the text of this revision
       pad.getInternalRevisionAText(rev, function(err, atext)
       {
-        if(!err)
-        {
-          data = {text: atext.text};
-        }
+        if(ERR(err, callback)) return;
         
-        callback(err, data);
+        data = {text: atext.text};
+        
+        callback(null, data);
       })
     }
     //the client wants the latest text, lets return it to him
@@ -156,11 +154,7 @@ exports.setText = function(padID, text, callback)
   //get the pad
   getPadSafe(padID, true, function(err, pad)
   {
-    if(err)
-    {
-      callback(err);
-      return;
-    }
+    if(ERR(err, callback)) return;
     
     //set the text
     pad.setText(text);
@@ -213,11 +207,7 @@ exports.getHTML = function(padID, rev, callback)
 
   getPadSafe(padID, true, function(err, pad)
   {
-    if(err)
-    {
-      callback(err);
-      return;
-    }
+    if(ERR(err, callback)) return;
     
     //the client asked for a special revision
     if(rev !== undefined)
@@ -232,11 +222,9 @@ exports.getHTML = function(padID, rev, callback)
       //get the html of this revision 
       exportHtml.getPadHTML(pad, rev, function(err, html)
       {
-          if(!err)
-          {
-            data = {html: html};
-          }
-          callback(err, data);
+          if(ERR(err, callback)) return;
+          data = {html: html};
+          callback(null, data);
       });
     }
     //the client wants the latest text, lets return it to him
@@ -244,13 +232,29 @@ exports.getHTML = function(padID, rev, callback)
     {
       exportHtml.getPadHTML(pad, undefined, function (err, html)
       {
-        if(!err)
-        {
-          data = {html: html};
-        }
-        callback(err, data);
+        if(ERR(err, callback)) return;
+        
+        data = {html: html};
+          
+        callback(null, data);
       });
     }
+  });
+}
+
+exports.setHTML = function(padID, html, callback)
+{
+  //get the pad
+  getPadSafe(padID, true, function(err, pad)
+  {
+    if(ERR(err, callback)) return;
+
+    // add a new changeset with the new html to the pad
+    importHtml.setPadHTML(pad, cleanText(html));
+
+    //update the clients on the pad
+    padMessageHandler.updatePadClients(pad, callback);
+
   });
 }
 
@@ -271,11 +275,7 @@ exports.getRevisionsCount = function(padID, callback)
   //get the pad
   getPadSafe(padID, true, function(err, pad)
   {
-    if(err)
-    {
-      callback(err);
-      return;
-    }
+    if(ERR(err, callback)) return;
     
     callback(null, {revisions: pad.getHeadRevisionNumber()});
   });
@@ -301,7 +301,8 @@ exports.createPad = function(padID, text, callback)
   //create pad
   getPadSafe(padID, false, text, function(err)
   {
-    callback(err);
+    if(ERR(err, callback)) return;
+    callback();
   });
 }
 
@@ -317,11 +318,7 @@ exports.deletePad = function(padID, callback)
 {
   getPadSafe(padID, true, function(err, pad)
   {
-    if(err)
-    {
-      callback(err);
-      return;
-    }
+    if(ERR(err, callback)) return;
     
     pad.remove(callback);
   });
@@ -340,16 +337,13 @@ exports.getReadOnlyID = function(padID, callback)
   //we don't need the pad object, but this function does all the security stuff for us
   getPadSafe(padID, true, function(err)
   {
-    if(err)
-    {
-      callback(err);
-      return;
-    }
+    if(ERR(err, callback)) return;
     
     //get the readonlyId
     readOnlyManager.getReadOnlyId(padID, function(err, readOnlyId)
     {
-      callback(err, {readOnlyID: readOnlyId});
+      if(ERR(err, callback)) return;
+      callback(null, {readOnlyID: readOnlyId});
     });
   });
 }
@@ -374,11 +368,7 @@ exports.setPublicStatus = function(padID, publicStatus, callback)
   //get the pad
   getPadSafe(padID, true, function(err, pad)
   {
-    if(err)
-    {
-      callback(err);
-      return;
-    }
+    if(ERR(err, callback)) return;
     
     //convert string to boolean
     if(typeof publicStatus == "string")
@@ -411,11 +401,7 @@ exports.getPublicStatus = function(padID, callback)
   //get the pad
   getPadSafe(padID, true, function(err, pad)
   {
-    if(err)
-    {
-      callback(err);
-      return;
-    }
+    if(ERR(err, callback)) return;
     
     callback(null, {publicStatus: pad.getPublicStatus()});
   });
@@ -441,11 +427,7 @@ exports.setPassword = function(padID, password, callback)
   //get the pad
   getPadSafe(padID, true, function(err, pad)
   {
-    if(err)
-    {
-      callback(err);
-      return;
-    }
+    if(ERR(err, callback)) return;
     
     //set the password
     pad.setPassword(password);
@@ -474,11 +456,7 @@ exports.isPasswordProtected = function(padID, callback)
   //get the pad
   getPadSafe(padID, true, function(err, pad)
   {
-    if(err)
-    {
-      callback(err);
-      return;
-    }
+    if(ERR(err, callback)) return;
     
     callback(null, {isPasswordProtected: pad.isPasswordProtected()});
   });
@@ -520,13 +498,10 @@ function getPadSafe(padID, shouldExist, text, callback)
   //check if the pad exists
   padManager.doesPadExists(padID, function(err, exists)
   {
-    //error
-    if(err) 
-    {
-      callback(err);
-    }
+    if(ERR(err, callback)) return;
+    
     //does not exist, but should
-    else if(exists == false && shouldExist == true)
+    if(exists == false && shouldExist == true)
     {
       callback({stop: "padID does not exist"});
     }

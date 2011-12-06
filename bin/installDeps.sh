@@ -28,8 +28,8 @@ hash npm > /dev/null 2>&1 || {
 
 #check npm version
 NPM_VERSION=$(npm --version)
-if [ ! $(echo $NPM_VERSION | cut -d "." -f 1-2) = "1.0" ]; then
-  echo "You're running a wrong version of npm, you're using $NPM_VERSION, we need 1.0.x" >&2
+if [ ! $(echo $NPM_VERSION | cut -d "." -f 1) = "1" ]; then
+  echo "You're running a wrong version of npm, you're using $NPM_VERSION, we need 1.x" >&2
   exit 1 
 fi
 
@@ -49,7 +49,7 @@ echo "Ensure jQuery is downloaded and up to date..."
 DOWNLOAD_JQUERY="true"
 NEEDED_VERSION="1.7"
 if [ -f "static/js/jquery.min.js" ]; then
-  VERSION=$(cat static/js/jquery.min.js | head -n 1 | grep -o "v[0-9].[0-9]");
+  VERSION=$(cat static/js/jquery.min.js | head -n 3 | grep -o "v[0-9].[0-9]");
   
   if [ ${VERSION#v} = $NEEDED_VERSION ]; then
     DOWNLOAD_JQUERY="false"

@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 
+var ERR = require("async-stacktrace");
 var padManager = require("../db/PadManager");
 var padMessageHandler = require("./PadMessageHandler");
 var async = require("async");
@@ -81,7 +82,7 @@ exports.doImport = function(req, res, padId)
     //this allows us to accept source code files like .c or .java
     function(callback)
     {
-      var fileEnding = srcFile.split(".")[1];
+      var fileEnding = srcFile.split(".")[1].toLowerCase();
       var knownFileEndings = ["txt", "doc", "docx", "pdf", "odt", "html", "htm"];
       
       //find out if this is a known file ending
@@ -112,7 +113,7 @@ exports.doImport = function(req, res, padId)
     //convert file to text
     function(callback)
     {
-      var randNum = Math.floor(Math.random()*new Date().getTime());
+      var randNum = Math.floor(Math.random()*0xFFFFFFFF);
       destFile = tempDirectory + "eplite_import_" + randNum + ".txt";
       abiword.convertFile(srcFile, destFile, "txt", callback);
     },
@@ -122,8 +123,9 @@ exports.doImport = function(req, res, padId)
     {
       padManager.getPad(padId, function(err, _pad)
       {
+        if(ERR(err, callback)) return;
         pad = _pad;
-        callback(err);
+        callback();
       });
     },
     
@@ -132,14 +134,22 @@ exports.doImport = function(req, res, padId)
     {
       fs.readFile(destFile, "utf8", function(err, _text)
       {
+        if(ERR(err, callback)) return;
         text = _text;
         
         //node on windows has a delay on releasing of the file lock.  
         //We add a 100ms delay to work around this
-        setTimeout(function()
-        {
-          callback(err);
-        }, 100);
+	      if(os.type().indexOf("Windows") > -1)
+	      {
+          setTimeout(function()
+          {
+            callback();
+          }, 100);
+	      }
+	      else
+	      {
+	        callback();
+	      }
       });
     },
     
@@ -173,7 +183,7 @@ exports.doImport = function(req, res, padId)
       return;
     }
 
-    if(err) throw err;
+    ERR(err);
   
     //close the connection
     res.send("ok");
