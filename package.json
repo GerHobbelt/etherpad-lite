@@ -10,9 +10,15 @@
   ],
   "author": "Peter 'Pita' Martischka <petermartischka@googlemail.com> - Primary Technology Ltd",
   "contributors": [
-    { "name": "Hans Pinckaers" },
-    { "name": "John McLear" }, 
-    { "name": "Robin Buse" }
+    {
+      "name": "Hans Pinckaers"
+    },
+    {
+      "name": "John McLear"
+    },
+    {
+      "name": "Robin Buse"
+    }
   ],
   "dependencies": {
     "socket.io": "0.8.7",
@@ -28,7 +34,7 @@
     "jsdom-nocontextifiy": "0.2.10",
     "async-stacktrace": "0.0.2"
   },
-  "version": "1.0.0-14",
+  "version": "1.0.0-22",
   "repository": {
     "type": "git",
     "url": "git://github.com/fcbosque/etherpad-lite"
@@ -37,10 +43,7 @@
     "node": "0.4.12",
     "npm": "1.0.106"
   },
-  "subdomain": "padfcbosque",
-  "domains": [
-    "pad.bogotic.com"
-  ],
+  "subdomain": "padfcb-test",
   "scripts": {
     "start": "node node/server.js"
   }
