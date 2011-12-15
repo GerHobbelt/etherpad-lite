@@ -34,7 +34,7 @@
     "jsdom-nocontextifiy": "0.2.10",
     "async-stacktrace": "0.0.2"
   },
-  "version": "1.0.0-22",
+  "version": "1.0.0-24",
   "repository": {
     "type": "git",
     "url": "git://github.com/fcbosque/etherpad-lite"
@@ -43,7 +43,10 @@
     "node": "0.4.12",
     "npm": "1.0.106"
   },
-  "subdomain": "padfcb-test",
+  "subdomain": "padfcbosque",
+  "domains": [
+    "pad.bogotic.com"
+  ],
   "scripts": {
     "start": "node node/server.js"
   }
