@@ -4,15 +4,15 @@ node_js:
 install:
 - bin/installDeps.sh
 - export GIT_HASH=$(git rev-parse --verify --short HEAD)
-- 'echo "web: node node_modules/ep_etherpad-lite/node/server.js" > Procfile'
+- ! 'echo "web: node node_modules/ep_etherpad-lite/node/server.js" > Procfile'
 - cp src/package.json ./
 - npm install
-- zip -r etherpad-lite-cf ./*
+- zip -r etherpad-lite-cf-orange ./*
 deploy:
   provider: releases
   api_key:
-    secure: GDExihYPG0uY9ZmrA1uGYXwQiQ39Y5qbrP472b7DJ6lWrGPI1+CN1l+aFDs9dn6yQbmHt+0z/epBOCCMIAQ/LUofULzSPhAWaoi0sEOzX/xF2jAYULdOJq9cpEjfQkEI+D1xsfkxY8HMe05Wxaj/S0Wd9X+zAQbMiPfFktkUv00=
-  file: etherpad-lite-cf.zip
+    secure: dkDukVdLcR42bUekW7bN5uL627YzRaJzbqAqhSWkMiy7ezrYSA54HY4RVhpG45NRtO4XGfbR68ljpq2z/H/lcAHsira35uCsLxWfa6Z7fhkLLe4EJrqRf8BsSAxsT9DFWSLNYOxrLlRvvF+pELR9OBcMq3dNg/svBSUX8c3+MzY=
+  file: etherpad-lite-cf-orange.zip
   on:
     tags: true
     all_branches: true
